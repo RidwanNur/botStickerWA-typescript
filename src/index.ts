@@ -15,10 +15,15 @@ client.on('ready', ()=> {
 
 client.on('message', async (message) => {
     if(
-        (message.body.startsWith('sticker') || message.body.startsWith('/sticker')) && message.type === 'image'
+        (message.body.startsWith('sticker') || message.body.startsWith('/sticker' || message.body.toLowerCase () === 'sticker')) && message.type === 'image'
     )
     {
-        const media = await message.downloadMedia();
+        let media;
+        try {
+             media = await message.downloadMedia();
+        } catch (error) {
+            return message.reply('Gagal mengunduh gambar');
+        }
 
         client.sendMessage(message.from, media, {
             sendMediaAsSticker: true,
